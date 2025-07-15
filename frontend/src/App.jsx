@@ -11,19 +11,30 @@ import Signup from './ pages/Signup.jsx';
 import AdminDashboard from './ pages/AdminDashboard.jsx';
 import DoctorDashboard from './ pages/DoctorDashboard.jsx';
 import DogDashboard from './ pages/DogDashboard.jsx'; // ✅ Correct import name
+import PaymentPage from './ pages/PaymentStep.jsx'; // ✅ Add this line
+
 
 
 import ProtectedRoute from './hooks/ProtectedRoute.jsx';
+
+
 
 function App() {
   return (
     <Router>
       <Navbar />
       <Routes>
+
+
+        
         {/* ✅ Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+
+      
+
+
 
         {/* ✅ Protected Routes */}
         <Route
@@ -49,6 +60,8 @@ function App() {
               <DogDashboard />
             </ProtectedRoute>
           }
+
+
         />
       </Routes>
       <Footer />

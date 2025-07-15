@@ -9,28 +9,66 @@ const Signup = () => {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
 
-    try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/register`,
-        {
-          username: name,  // Changed from name to username
-          email,
-          password,
-          role: 'admin'    // Added role admin here
-        }
-      );
+  //   try {
+  //     const res = await axios.post(
+  //       `${import.meta.env.VITE_API_URL}/auth/register`,
+  //       {
+  //         name,  // Changed from name to username
+  //         email,
+  //         password,
+  //         role: 'admin'    // Added role admin here
+  //       }
+  //     );
 
-      console.log("✅ Signup response:", res.data);
+  //     console.log("✅ Signup response:", res.data);
 
-      // Redirect to login page after successful signup
-      navigate('/login');
-    } catch (err) {
-      setMessage(err.response?.data?.message || 'Signup failed. Please try again later.');
+  //     // Redirect to login page after successful signup
+  //     navigate('/login');
+  //   } catch (err) {
+  //     setMessage(err.response?.data?.message || 'Signup failed. Please try again later.');
+  //   }
+  // };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_URL}/auth/register`,
+      {
+        name,
+        email,
+        password,
+        role: 'user' // or 'admin' if you want this to be selectable
+      }
+    );
+
+    console.log("✅ Signup response:", res.data);
+
+    const { role, token, _id } = res.data;
+
+    // Save auth info
+    localStorage.setItem('userRole', role);
+    localStorage.setItem('authToken', token);
+    localStorage.setItem('userid', _id);
+
+    // Auto redirect based on role
+    if (role === 'admin') {
+      navigate('/admin-dashboard');
+    } else if (role === 'user') {
+      navigate('/dog-dashboard');
+    } else if (role === 'doctor') {
+      navigate('/doctor-dashboard');
+    } else {
+      navigate('/');
     }
-  };
+  } catch (err) {
+    console.error(" Signup failed:", err.response?.data || err.message);
+    setMessage(err.response?.data?.message || 'Signup failed. Please try again later.');
+  }
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">

@@ -9,7 +9,7 @@ const FoodRecommendation = ({ breedId, ageInMonths }) => {
   useEffect(() => {
     if (breedId && ageInMonths !== null) {
       axios
-        .get(`http://localhost:8000/api/foods/recommend?breed=${breedId}&age=${ageInMonths}`)
+        .get(`http://localhost:5000/api/foods/recommend?breed=${breedId}&age=${ageInMonths}`)
         .then((res) => {
           setFoods(res.data.foods || []);
         })
@@ -48,3 +48,71 @@ const FoodRecommendation = ({ breedId, ageInMonths }) => {
 };
 
 export default FoodRecommendation;
+
+
+// import React, { useState, useEffect } from "react";
+// import axios from "../api/axios";
+
+// const FoodRecommendation = () => {
+//   const [foodList, setFoodList] = useState([]);
+//   const [selectedFood, setSelectedFood] = useState(null);
+//   const [showModal, setShowModal] = useState(false);
+// useEffect(() => {
+//   axios.get("/api/food")
+//     .then(res => {
+//       setFoodList(res.data);
+//       console.log("Food list:", res.data);
+//     })
+//     .catch(err => {
+//       console.error("Failed to fetch food list:", err);
+//       setFoodList([]);
+//     });
+// }, []);
+//   const handleFoodClick = async (foodId) => {
+//     try {
+//       const res = await axios.get(`/food/${foodId}`);
+//       setSelectedFood(res.data);
+//       console.log("Food details:", res.data);
+//     } catch {
+//       setSelectedFood(null);
+//     }
+//     setShowModal(true);
+//   };
+
+//   return (
+//     <div>
+//       <h2>Food Recommendations</h2>
+//       <ul>
+//         {foodList.length === 0 ? (
+//           <li>No food suggestions found</li>
+//         ) : (
+//           foodList.map(food => (
+//             <li key={food._id}>
+//               <button onClick={() => handleFoodClick(food._id)}>
+//                 {food.name}
+//               </button>
+//             </li>
+//           ))
+//         )}
+//       </ul>
+
+//       {showModal && (
+//         <div className="modal">
+//           <h3>Food Details</h3>
+//           {selectedFood ? (
+//             <>
+//               <p>Name: {selectedFood.name}</p>
+//               <p>Brand: {selectedFood.brand}</p>
+//               <p>Ingredients: {selectedFood.ingredients}</p>
+//             </>
+//           ) : (
+//             <p>No food details found</p>
+//           )}
+//           <button onClick={() => setShowModal(false)}>Close</button>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default FoodRecommendation;

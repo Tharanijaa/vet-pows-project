@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AddDogModal = ({ isOpen, onClose, onDogAdded }) => {
@@ -13,7 +13,16 @@ const AddDogModal = ({ isOpen, onClose, onDogAdded }) => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [breeds, setBreeds] = useState([]);
   const API_URL = import.meta.env.VITE_API_URL;
+
+  // 👇 Fetch all breeds from backend
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/breeds`)
+      .then(res => setBreeds(res.data))
+      .catch(err => console.error("Breed fetch failed:", err));
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,7 +32,6 @@ const AddDogModal = ({ isOpen, onClose, onDogAdded }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     try {
       const token = localStorage.getItem('authToken');
 
@@ -43,7 +51,6 @@ const AddDogModal = ({ isOpen, onClose, onDogAdded }) => {
         }
       });
 
-      // Reset form and refresh list
       setForm({
         name: '',
         breed: '',
@@ -71,7 +78,17 @@ const AddDogModal = ({ isOpen, onClose, onDogAdded }) => {
         <h2 className="text-xl font-bold mb-4">Register New Dog</h2>
         <form onSubmit={handleSubmit} className="space-y-3">
           <input name="name" placeholder="Dog Name" value={form.name} onChange={handleChange} className="w-full border p-2 rounded" required />
-          <input name="breed" placeholder="Breed ID (ObjectId)" value={form.breed} onChange={handleChange} className="w-full border p-2 rounded" required />
+
+          {/* ✅ Replace input with dynamic dropdown */}
+          <select name="breed" value={form.breed} onChange={handleChange} className="w-full border p-2 rounded" required>
+            <option value="">Select Breed</option>
+            {breeds.map(breed => (
+              <option key={breed._id} value={breed._id}>
+                {breed.breed}
+              </option>
+            ))}
+          </select>
+
           <input name="age" type="number" placeholder="Age in Months" value={form.age} onChange={handleChange} className="w-full border p-2 rounded" required />
           <select name="gender" value={form.gender} onChange={handleChange} className="w-full border p-2 rounded" required>
             <option value="">Select Gender</option>
@@ -95,3 +112,88 @@ const AddDogModal = ({ isOpen, onClose, onDogAdded }) => {
 };
 
 export default AddDogModal;
+// import React, { useState, useEffect } from 'react';
+// import axios from 'axios';
+// import { useNavigate } from 'react-router-dom';
+
+// const AddDogModal = () => {
+//   const [form, setForm] = useState({
+//     name: '',
+//     breed: '',
+//     age: '',
+//     gender: '',
+//     weight: '',
+//     healthIssues: '',
+//     profilePic: ''
+//   });
+
+//   const [breeds, setBreeds] = useState([]);
+//   const navigate = useNavigate();
+//   const API_URL = import.meta.env.VITE_API_URL;
+
+//   useEffect(() => {
+//     axios.get(`${API_URL}/breeds`)
+//       .then(res => setBreeds(res.data))
+//       .catch(err => console.error('Failed to load breeds:', err));
+//   }, []);
+
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setForm(prev => ({ ...prev, [name]: value }));
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const token = localStorage.getItem('authToken');
+//       const payload = {
+//         ...form,
+//         age: parseInt(form.age),
+//         healthIssues: form.healthIssues
+//           ? form.healthIssues.split(',').map(i => i.trim())
+//           : [],
+//         species: 'Dog'
+//       };
+
+//       const res = await axios.post(`${API_URL}/animals/add`, payload, {
+//         headers: {
+//           Authorization: `Bearer ${token}`
+//         }
+//       });
+
+//       const dogId = res.data._id;
+//       navigate(`/register/payment/${dogId}`); // 👈 go to payment step with dogId
+//     } catch (err) {
+//       alert(err.response?.data?.message || 'Error registering dog');
+//     }
+//   };
+
+//   return (
+//     <div className="p-6 max-w-lg mx-auto bg-white shadow rounded">
+//       <h2 className="text-xl font-bold mb-4">Step 1 of 2: Dog Information</h2>
+//       <form onSubmit={handleSubmit} className="space-y-3">
+//         <input name="name" placeholder="Dog Name" required value={form.name} onChange={handleChange} className="w-full border p-2 rounded" />
+
+//         <select name="breed" required value={form.breed} onChange={handleChange} className="w-full border p-2 rounded">
+//           <option value="">Select Breed</option>
+//           {breeds.map(b => <option key={b._id} value={b._id}>{b.breed}</option>)}
+//         </select>
+
+//         <input name="age" type="number" placeholder="Age (months)" required value={form.age} onChange={handleChange} className="w-full border p-2 rounded" />
+//         <select name="gender" required value={form.gender} onChange={handleChange} className="w-full border p-2 rounded">
+//           <option value="">Gender</option>
+//           <option>Male</option>
+//           <option>Female</option>
+//         </select>
+//         <input name="weight" placeholder="Weight (kg)" value={form.weight} onChange={handleChange} className="w-full border p-2 rounded" />
+//         <input name="healthIssues" placeholder="Health Issues (comma-separated)" value={form.healthIssues} onChange={handleChange} className="w-full border p-2 rounded" />
+//         <input name="profilePic" placeholder="Profile Picture URL" value={form.profilePic} onChange={handleChange} className="w-full border p-2 rounded" />
+
+//         <button type="submit" className="bg-green-600 text-white px-6 py-2 rounded">Next: Payment</button>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default AddDogModel;
+
