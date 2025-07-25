@@ -140,7 +140,7 @@ const UserManagement = () => {
   const fetchUsers = async () => {
     setLoading(true);
     setError(null);
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     if (!token) {
       setError('No authentication token found. Please log in.');
       setUsers([]);
@@ -173,7 +173,7 @@ const UserManagement = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
-        const token = localStorage.getItem('authToken'); // ✅ Correct key used
+        const token = localStorage.getItem('token'); // ✅ Correct key used
         await axios.delete(`${API_URL}/users/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,

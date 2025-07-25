@@ -51,18 +51,18 @@ const handleSubmit = async (e) => {
 
     // Save auth info
     localStorage.setItem('userRole', role);
-    localStorage.setItem('authToken', token);
+    localStorage.setItem('token', token);
     localStorage.setItem('userid', _id);
 
     // Auto redirect based on role
     if (role === 'admin') {
-      navigate('/admin-dashboard');
+      navigate('/login');
     } else if (role === 'user') {
-      navigate('/dog-dashboard');
+      navigate('/login');
     } else if (role === 'doctor') {
-      navigate('/doctor-dashboard');
+      navigate('/login');
     } else {
-      navigate('/');
+      navigate('/login');
     }
   } catch (err) {
     console.error(" Signup failed:", err.response?.data || err.message);

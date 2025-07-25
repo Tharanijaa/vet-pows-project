@@ -10,7 +10,7 @@ const DogManagement = () => {
   useEffect(() => {
     const fetchDogs = async () => {
       try {
-        const token = localStorage.getItem('authToken');
+        const token = localStorage.getItem('token');
         const res = await axios.get(`${API_URL}/animals/admin`, {
           headers: {
             Authorization: `Bearer ${token}`,

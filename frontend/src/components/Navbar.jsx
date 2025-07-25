@@ -70,7 +70,7 @@ const Navbar = () => {
 
   // Fetch user from localStorage
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("token");
     const role = localStorage.getItem("userRole");
     const userId = localStorage.getItem("userid");
 

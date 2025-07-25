@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import DogSuggestionModal from './DogSuggestionModal';
-
-const API_URL = import.meta.env.VITE_API_URL;
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { GiForkKnifeSpoon, GiSyringe } from 'react-icons/gi';
 
 const DogCard = ({ dog, onFetchSuggestions }) => {
+  const navigate = useNavigate(); // ✅ Moved inside the component
+
   return (
     <div className="bg-white rounded-xl shadow-md p-4">
       <h3 className="text-lg font-semibold">{dog.name}</h3>
@@ -13,25 +13,40 @@ const DogCard = ({ dog, onFetchSuggestions }) => {
 
       {/* Suggestion Buttons */}
       <div className="mt-3 flex gap-4">
-     <button
-  onClick={() => onFetchSuggestions(dog, 'food')}
-  className="bg-green-100 text-green-800 px-3 py-1 rounded text-sm hover:bg-green-200"
->
-  🍽 View Food
-</button>
+        <button
+          onClick={() => onFetchSuggestions(dog, 'food')}
+          className="bg-green-100 text-green-800 px-12 py-2 rounded text-sm hover:bg-green-200"
+        >
+          <GiForkKnifeSpoon size={20} />
+          View Food
+        </button>
 
-<button
-  onClick={() => onFetchSuggestions(dog, 'vaccination')}
-  className="bg-red-100 text-red-800 px-3 py-1 rounded text-sm hover:bg-red-200"
->
-  💉 View Vaccines
-</button>
-
+        <button
+          onClick={() => onFetchSuggestions(dog, 'vaccination')}
+          className="bg-red-100 text-red-800 px-12 py-2 rounded text-sm hover:bg-red-200"
+        >
+          <GiSyringe size={20} />
+          View Vaccines
+        </button>
       </div>
+{/* 
+      View Details Button
+      <div className="mt-4 flex justify-center">
+        <button
+
+          onClick={() => navigate('/DogList')}
+
+          className="bg-blue-500 hover:bg-blue-600 text-white px-12 py-2 rounded-lg text-sm shadow-md"
+        >
+          👁 View Details
+        </button>
+      </div> */}
     </div>
   );
+  
 };
 
 export default DogCard;
+
 
 
