@@ -14,7 +14,7 @@ const AppointmentManagement = () => {
   const fetchAppointments = async () => {
     const token = localStorage.getItem('token');
     try {
-      const res = await axios.get(`${API_URL}/api/appointments`, {
+      const res = await axios.get(`${API_URL}/appointments/doctor/appointments`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setAppointments(res.data);

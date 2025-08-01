@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const AppointmentModal = ({ isOpen, onClose, doctor }) => {
+const AppointmentModal = ({ isOpen, onClose, doctor, onAppointmentBooked }) => {
   const [dogs, setDogs] = useState([]);
   const [selectedDogId, setSelectedDogId] = useState('');
   const [date, setDate] = useState('');
@@ -99,6 +99,9 @@ const AppointmentModal = ({ isOpen, onClose, doctor }) => {
       setTime('');
       setReason('');
       setSelectedDogId('');
+      if (onAppointmentBooked) {
+        onAppointmentBooked(); // Refresh appointments in parent
+      }
       onClose();
     } catch (error) {
       console.error('Booking error:', error?.response?.data || error.message);

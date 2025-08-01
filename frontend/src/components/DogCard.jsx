@@ -15,7 +15,7 @@ const DogCard = ({ dog, onFetchSuggestions }) => {
       <div className="mt-3 flex gap-4">
         <button
           onClick={() => onFetchSuggestions(dog, 'food')}
-          className="bg-green-100 text-green-800 px-12 py-2 rounded text-sm hover:bg-green-200"
+          className="bg-amber-200 text-amber-900 px-12 py-2 rounded text-sm hover:bg-amber-300 flex items-center gap-2"
         >
           <GiForkKnifeSpoon size={20} />
           View Food
@@ -23,7 +23,7 @@ const DogCard = ({ dog, onFetchSuggestions }) => {
 
         <button
           onClick={() => onFetchSuggestions(dog, 'vaccination')}
-          className="bg-red-100 text-red-800 px-12 py-2 rounded text-sm hover:bg-red-200"
+          className="bg-amber-100 text-red-800 px-12 py-2 rounded text-sm hover:bg-red-200"
         >
           <GiSyringe size={20} />
           View Vaccines

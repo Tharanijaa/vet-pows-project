@@ -112,7 +112,7 @@ const Navbar = () => {
         <Link to="/" onClick={(e) => handleSectionClick(e, "services")} className="hover:text-orange-700">Services</Link>
         <Link to="/" onClick={(e) => handleSectionClick(e, "whoweare")} className="hover:text-orange-700">Who We Are</Link>
         <Link to="/" onClick={(e) => handleSectionClick(e, "howitworks")} className="hover:text-orange-700">How It Works</Link>
-        <Link to="/" onClick={(e) => handleSectionClick(e, "contact")} className="hover:text-orange-700">Contact</Link>
+        {/* <Link to="/" onClick={(e) => handleSectionClick(e, "contact")} className="hover:text-orange-700">Contact</Link> */}
 
         {!user ? (
           <Link
